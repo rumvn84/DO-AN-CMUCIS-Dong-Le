@@ -32,10 +32,14 @@
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             tableLayoutPanel1 = new TableLayoutPanel();
             panel1 = new Panel();
+            button13 = new Button();
             btnSapXep = new Button();
             btnThongKe = new Button();
             label9 = new Label();
+            button12 = new Button();
             btnDTB = new Button();
+            button11 = new Button();
+            button10 = new Button();
             btnMoFile = new Button();
             btnLuuFile = new Button();
             label8 = new Label();
@@ -57,6 +61,7 @@
             label2 = new Label();
             label1 = new Label();
             fontDialog1 = new FontDialog();
+            btnSua = new DataGridViewButtonColumn();
             tableLayoutPanel1.SuspendLayout();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvSinhVien).BeginInit();
@@ -65,6 +70,7 @@
             // 
             // tableLayoutPanel1
             // 
+            tableLayoutPanel1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             tableLayoutPanel1.ColumnCount = 2;
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 19.5592289F));
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 513F));
@@ -80,11 +86,16 @@
             // 
             // panel1
             // 
+            panel1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
             panel1.BorderStyle = BorderStyle.FixedSingle;
+            panel1.Controls.Add(button13);
             panel1.Controls.Add(btnSapXep);
             panel1.Controls.Add(btnThongKe);
             panel1.Controls.Add(label9);
+            panel1.Controls.Add(button12);
             panel1.Controls.Add(btnDTB);
+            panel1.Controls.Add(button11);
+            panel1.Controls.Add(button10);
             panel1.Controls.Add(btnMoFile);
             panel1.Controls.Add(btnLuuFile);
             panel1.Controls.Add(label8);
@@ -95,9 +106,23 @@
             panel1.Name = "panel1";
             panel1.Size = new Size(507, 420);
             panel1.TabIndex = 0;
+            panel1.Paint += panel1_Paint;
+            // 
+            // button13
+            // 
+            button13.BackColor = Color.AliceBlue;
+            button13.Font = new Font("Arial", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            button13.ForeColor = Color.Black;
+            button13.Location = new Point(-279, 213);
+            button13.Name = "button13";
+            button13.Size = new Size(221, 26);
+            button13.TabIndex = 6;
+            button13.Text = "Tìm kiếm sinh viên";
+            button13.UseVisualStyleBackColor = false;
             // 
             // btnSapXep
             // 
+            btnSapXep.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             btnSapXep.BackColor = SystemColors.ControlLight;
             btnSapXep.Font = new Font("Microsoft Sans Serif", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
             btnSapXep.Location = new Point(353, 71);
@@ -109,6 +134,7 @@
             // 
             // btnThongKe
             // 
+            btnThongKe.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
             btnThongKe.BackColor = Color.SteelBlue;
             btnThongKe.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnThongKe.Location = new Point(420, 241);
@@ -130,8 +156,22 @@
             label9.Text = "Hệ Thống Quản Lý Sinh Viên";
             label9.Click += label9_Click;
             // 
+            // button12
+            // 
+            button12.BackColor = SystemColors.InactiveBorder;
+            button12.Font = new Font("Segoe UI", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            button12.ForeColor = Color.Firebrick;
+            button12.Location = new Point(-251, 271);
+            button12.Name = "button12";
+            button12.Size = new Size(161, 37);
+            button12.TabIndex = 7;
+            button12.Text = "Cập nhập";
+            button12.UseVisualStyleBackColor = false;
+            button12.Click += button3_Click;
+            // 
             // btnDTB
             // 
+            btnDTB.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
             btnDTB.BackColor = Color.SteelBlue;
             btnDTB.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnDTB.Location = new Point(420, 143);
@@ -142,8 +182,34 @@
             btnDTB.UseVisualStyleBackColor = false;
             btnDTB.Click += button8_Click;
             // 
+            // button11
+            // 
+            button11.BackColor = SystemColors.ActiveCaption;
+            button11.Font = new Font("Arial", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            button11.ForeColor = Color.Black;
+            button11.Location = new Point(-157, 143);
+            button11.Name = "button11";
+            button11.Size = new Size(99, 40);
+            button11.TabIndex = 5;
+            button11.Text = "Xóa sinh viên";
+            button11.UseVisualStyleBackColor = false;
+            // 
+            // button10
+            // 
+            button10.BackColor = SystemColors.ActiveCaption;
+            button10.BackgroundImageLayout = ImageLayout.Center;
+            button10.Font = new Font("Arial", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            button10.Location = new Point(-279, 143);
+            button10.Name = "button10";
+            button10.Size = new Size(102, 40);
+            button10.TabIndex = 4;
+            button10.Text = "Thêm sinh viên";
+            button10.UseVisualStyleBackColor = false;
+            button10.Click += btnThem_Click;
+            // 
             // btnMoFile
             // 
+            btnMoFile.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             btnMoFile.BackColor = SystemColors.ControlLight;
             btnMoFile.Font = new Font("Microsoft Sans Serif", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
             btnMoFile.Location = new Point(21, 71);
@@ -156,6 +222,7 @@
             // 
             // btnLuuFile
             // 
+            btnLuuFile.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             btnLuuFile.BackColor = SystemColors.ControlLight;
             btnLuuFile.Font = new Font("Microsoft Sans Serif", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
             btnLuuFile.Location = new Point(95, 71);
@@ -168,6 +235,7 @@
             // 
             // label8
             // 
+            label8.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
             label8.AutoSize = true;
             label8.Font = new Font("Segoe UI", 10F, FontStyle.Italic, GraphicsUnit.Point, 0);
             label8.ForeColor = Color.Crimson;
@@ -180,6 +248,7 @@
             // 
             // dgvSinhVien
             // 
+            dgvSinhVien.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             dgvSinhVien.BackgroundColor = SystemColors.ButtonHighlight;
             dgvSinhVien.BorderStyle = BorderStyle.Fixed3D;
             dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
@@ -191,6 +260,7 @@
             dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
             dgvSinhVien.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dgvSinhVien.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvSinhVien.Columns.AddRange(new DataGridViewColumn[] { btnSua });
             dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle2.BackColor = SystemColors.Window;
             dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F);
@@ -204,10 +274,12 @@
             dgvSinhVien.RowHeadersWidth = 62;
             dgvSinhVien.Size = new Size(393, 274);
             dgvSinhVien.TabIndex = 0;
+            dgvSinhVien.CellContentClick += dgvSinhVien_CellContentClick;
             dgvSinhVien.RowPostPaint += dgvSinhVien_RowPostPaint;
             // 
             // label6
             // 
+            label6.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
             label6.AutoSize = true;
             label6.Font = new Font("Segoe UI", 10F, FontStyle.Italic, GraphicsUnit.Point, 0);
             label6.ForeColor = Color.SaddleBrown;
@@ -220,6 +292,7 @@
             // 
             // label7
             // 
+            label7.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
             label7.AutoSize = true;
             label7.Font = new Font("Segoe UI", 10F, FontStyle.Italic, GraphicsUnit.Point, 0);
             label7.ForeColor = SystemColors.MenuHighlight;
@@ -232,6 +305,7 @@
             // 
             // panel2
             // 
+            panel2.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
             panel2.BackColor = Color.FromArgb(0, 0, 3, 51);
             panel2.BorderStyle = BorderStyle.Fixed3D;
             panel2.Controls.Add(btnTimKiemSV);
@@ -254,6 +328,7 @@
             // 
             // btnTimKiemSV
             // 
+            btnTimKiemSV.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
             btnTimKiemSV.BackColor = Color.AliceBlue;
             btnTimKiemSV.Font = new Font("Arial", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnTimKiemSV.ForeColor = Color.Black;
@@ -266,6 +341,7 @@
             // 
             // txtDiem
             // 
+            txtDiem.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             txtDiem.Location = new Point(137, 171);
             txtDiem.Name = "txtDiem";
             txtDiem.Size = new Size(100, 23);
@@ -274,6 +350,7 @@
             // 
             // txtLop
             // 
+            txtLop.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             txtLop.Location = new Point(137, 127);
             txtLop.Name = "txtLop";
             txtLop.Size = new Size(100, 23);
@@ -282,6 +359,7 @@
             // 
             // btnCapNhat
             // 
+            btnCapNhat.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
             btnCapNhat.BackColor = SystemColors.InactiveBorder;
             btnCapNhat.Font = new Font("Segoe UI", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnCapNhat.ForeColor = Color.Firebrick;
@@ -295,6 +373,7 @@
             // 
             // btnXoaSV
             // 
+            btnXoaSV.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
             btnXoaSV.BackColor = SystemColors.ActiveCaption;
             btnXoaSV.Font = new Font("Arial", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnXoaSV.ForeColor = Color.Black;
@@ -307,6 +386,7 @@
             // 
             // btnThem
             // 
+            btnThem.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
             btnThem.BackColor = SystemColors.ActiveCaption;
             btnThem.BackgroundImageLayout = ImageLayout.Center;
             btnThem.Font = new Font("Arial", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
@@ -320,6 +400,7 @@
             // 
             // txtMaSV
             // 
+            txtMaSV.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             txtMaSV.Location = new Point(137, 86);
             txtMaSV.Name = "txtMaSV";
             txtMaSV.Size = new Size(100, 23);
@@ -328,6 +409,7 @@
             // 
             // txtHoTen
             // 
+            txtHoTen.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             txtHoTen.Location = new Point(137, 50);
             txtHoTen.Name = "txtHoTen";
             txtHoTen.Size = new Size(100, 23);
@@ -336,6 +418,7 @@
             // 
             // label5
             // 
+            label5.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
             label5.AutoSize = true;
             label5.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label5.Location = new Point(15, 88);
@@ -346,6 +429,7 @@
             // 
             // label4
             // 
+            label4.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
             label4.AutoSize = true;
             label4.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label4.Location = new Point(15, 173);
@@ -356,6 +440,7 @@
             // 
             // label3
             // 
+            label3.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
             label3.AutoSize = true;
             label3.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label3.Location = new Point(15, 129);
@@ -366,6 +451,7 @@
             // 
             // label2
             // 
+            label2.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
             label2.AutoSize = true;
             label2.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label2.Location = new Point(15, 52);
@@ -377,6 +463,7 @@
             // 
             // label1
             // 
+            label1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
             label1.AutoSize = true;
             label1.BorderStyle = BorderStyle.FixedSingle;
             label1.Font = new Font("Segoe UI", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
@@ -387,6 +474,14 @@
             label1.TabIndex = 0;
             label1.Text = "Thông Tin Sinh Viên";
             label1.Click += label1_Click;
+            // 
+            // btnSua
+            // 
+            btnSua.HeaderText = "";
+            btnSua.Name = "btnSua";
+            btnSua.Text = "Sửa";
+            btnSua.UseColumnTextForButtonValue = true;
+            btnSua.Width = 50;
             // 
             // Form1
             // 
@@ -445,5 +540,10 @@
         private Button btnTimKiemSV;
         private Button btnCapNhat;
         private Button btnXoaSV;
+        private Button button13;
+        private Button button12;
+        private Button button11;
+        private Button button10;
+        private DataGridViewButtonColumn btnSua;
     }
 }

@@ -293,6 +293,33 @@ namespace DoAnStudentManager
                                       e.RowBounds.Location.Y + 4); // Căn lề trên 4px
             }
         }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void dgvSinhVien_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            // 1. Lấy tên cột vừa bấm
+            var senderGrid = (DataGridView)sender;
+
+            // 2. Kiểm tra xem người dùng có bấm vào cột "btnSua" hay không?
+            // (Và đảm bảo không bấm vào tiêu đề cột - hàng âm)
+            if (senderGrid.Columns[e.ColumnIndex].Name == "btnSua" && e.RowIndex >= 0)
+            {
+                // 3. Lấy dòng hiện tại
+                DataGridViewRow row = dgvSinhVien.Rows[e.RowIndex];
+
+                // 4. Đổ dữ liệu ngược lên Textbox (giống hệt logic cũ)
+                // Lưu ý: Kiểm tra kỹ tên cột dữ liệu ("MaSV", "HoTen"...) phải đúng với thiết kế
+                txtMaSV.Text = row.Cells["MaSV"].Value.ToString();
+                txtHoTen.Text = row.Cells["HoTen"].Value.ToString();
+                txtLop.Text = row.Cells["Lop"].Value.ToString();
+                float diemLayRa = float.Parse(row.Cells["Diem"].Value.ToString());
+                txtDiem.Text = diemLayRa.ToString("0.##");
+            }
+        }
     }
 }
         

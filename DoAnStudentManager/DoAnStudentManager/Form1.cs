@@ -320,6 +320,119 @@ namespace DoAnStudentManager
                 txtDiem.Text = diemLayRa.ToString("0.##");
             }
         }
+
+        private void dgvSinhVien_CellClick(object sender, DataGridViewCellEventArgs e) // FR khi click vào cột nào thì đỗ thông tin lại lên textbox (nhưng chưa cần )
+        {
+            // 1. Nếu người dùng bấm vào tiêu đề cột (hàng -1) thì thoát, không làm gì cả
+            if (e.RowIndex == -1) return;
+
+            // 2. Lấy dòng hiện tại đang được chọn
+            DataGridViewRow row = dgvSinhVien.Rows[e.RowIndex];
+
+            // 3. Đổ dữ liệu từ bảng ngược lên các ô Textbox
+            // Lưu ý: Các tên trong ngoặc vuông ["MaSV"] phải khớp với tên thuộc tính trong Class Student
+            txtMaSV.Text = row.Cells["MaSV"].Value.ToString();
+            txtHoTen.Text = row.Cells["HoTen"].Value.ToString();
+            txtLop.Text = row.Cells["Lop"].Value.ToString();
+
+            // 4. Xử lý riêng cho ĐIỂM để tránh bị lỗi số dài ngoằng (VD: 2.30000019...)
+            // Chúng ta lấy giá trị ra, ép về số, rồi định dạng lại cho đẹp
+            string giaTriDiem = row.Cells["Diem"].Value.ToString();
+            float diemSo;
+
+            if (float.TryParse(giaTriDiem, out diemSo))
+            {
+                // "0.##": Chỉ lấy tối đa 2 số lẻ. Ví dụ 2.3 -> 2.3; 2.391 -> 2.39
+                txtDiem.Text = diemSo.ToString("0.##");
+            }
+            else
+            {
+                txtDiem.Text = giaTriDiem;
+            }
+        }
+
+        
+
+        private void btnXoaSV_Click_1(object sender, EventArgs e)
+        {
+            // =======================================================================
+            // BƯỚC 1: NGƯỜI DÙNG NHẤN NÚT XÓA (SỰ KIỆN CLICK)
+            // =======================================================================
+
+            // Lấy ID từ textbox (Giả định người dùng đã click vào bảng và dữ liệu đã đổ lên đây)
+            string maSVCanXoa = txtMaSV.Text.Trim();
+
+            // =======================================================================
+            // BƯỚC 2: KIỂM TRA (VALIDATION)
+            // =======================================================================
+
+            // Đáp ứng TC-08: Xóa khi chưa chọn sinh viên / Danh sách trống
+            if (string.IsNullOrEmpty(maSVCanXoa))
+            {
+                MessageBox.Show("Vui lòng chọn một sinh viên trên bảng để xóa!",
+                                "Chưa chọn sinh viên",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Warning);
+                return; // Dừng lại, không làm gì tiếp
+            }
+
+            // Kiểm tra kỹ hơn: Tìm xem sinh viên này có thực sự tồn tại trong danh sách không?
+            // (Tránh trường hợp người dùng tự gõ bừa một mã không có rồi bấm xóa)
+            var svCanXoa = danhSachSV.SingleOrDefault(sv => sv.MaSV == maSVCanXoa);
+
+            if (svCanXoa == null)
+            {
+                MessageBox.Show($"Không tìm thấy sinh viên có mã {maSVCanXoa} trong hệ thống!",
+                                "Lỗi dữ liệu",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Error);
+                return;
+            }
+
+            // =======================================================================
+            // BƯỚC 3: YÊU CẦU XÁC NHẬN (CONFIRMATION)
+            // =======================================================================
+
+            DialogResult xacNhan = MessageBox.Show(
+                $"Bạn có chắc chắn muốn xóa sinh viên:\n" +
+                $"Họ tên: {svCanXoa.HoTen}\n" +
+                $"Mã số: {svCanXoa.MaSV}\n\n" +
+                "Hành động này không thể hoàn tác!",
+                "Xác nhận xóa",
+                MessageBoxButtons.YesNo, // Hiển thị nút Yes/No
+                MessageBoxIcon.Question);
+
+            // Nếu chọn NO: Hủy bỏ
+            if (xacNhan == DialogResult.No)
+            {
+                return;
+            }
+
+            // Nếu chọn YES: Chuyển sang Bước 4
+
+            // =======================================================================
+            // BƯỚC 4: THỰC HIỆN XÓA (EXECUTION)
+            // =======================================================================
+
+            // 1. Xóa đối tượng khỏi danh sách gốc (List)
+            danhSachSV.Remove(svCanXoa);
+
+            // 2. Xóa dòng tương ứng trên giao diện bảng (Cập nhật lại nguồn dữ liệu)
+            CapNhatBang(); // Hàm này sẽ load lại list mới (đã mất người vừa xóa) lên dgv
+
+            // 3. Xóa trắng các ô nhập liệu (Clean UI) để tránh xóa nhầm lần nữa
+            ResetForm();
+
+            // =======================================================================
+            // BƯỚC 5: THÔNG BÁO THÀNH CÔNG
+            // =======================================================================
+
+            // Đáp ứng TC-02: Xóa sinh viên thành công
+            MessageBox.Show("Đã xóa thành công!",
+                            "Thông báo",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Information);
+        }
     }
 }
         

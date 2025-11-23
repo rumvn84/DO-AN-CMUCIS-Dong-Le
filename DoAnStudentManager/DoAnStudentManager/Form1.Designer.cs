@@ -44,6 +44,7 @@
             btnLuuFile = new Button();
             label8 = new Label();
             dgvSinhVien = new DataGridView();
+            btnSua = new DataGridViewButtonColumn();
             label6 = new Label();
             label7 = new Label();
             panel2 = new Panel();
@@ -61,7 +62,6 @@
             label2 = new Label();
             label1 = new Label();
             fontDialog1 = new FontDialog();
-            btnSua = new DataGridViewButtonColumn();
             tableLayoutPanel1.SuspendLayout();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvSinhVien).BeginInit();
@@ -277,6 +277,14 @@
             dgvSinhVien.CellContentClick += dgvSinhVien_CellContentClick;
             dgvSinhVien.RowPostPaint += dgvSinhVien_RowPostPaint;
             // 
+            // btnSua
+            // 
+            btnSua.HeaderText = "";
+            btnSua.Name = "btnSua";
+            btnSua.Text = "Sửa";
+            btnSua.UseColumnTextForButtonValue = true;
+            btnSua.Width = 50;
+            // 
             // label6
             // 
             label6.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
@@ -383,6 +391,7 @@
             btnXoaSV.TabIndex = 5;
             btnXoaSV.Text = "Xóa sinh viên";
             btnXoaSV.UseVisualStyleBackColor = false;
+            btnXoaSV.Click += btnXoaSV_Click_1;
             // 
             // btnThem
             // 
@@ -474,14 +483,6 @@
             label1.TabIndex = 0;
             label1.Text = "Thông Tin Sinh Viên";
             label1.Click += label1_Click;
-            // 
-            // btnSua
-            // 
-            btnSua.HeaderText = "";
-            btnSua.Name = "btnSua";
-            btnSua.Text = "Sửa";
-            btnSua.UseColumnTextForButtonValue = true;
-            btnSua.Width = 50;
             // 
             // Form1
             // 

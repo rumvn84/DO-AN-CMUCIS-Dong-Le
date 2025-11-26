@@ -248,9 +248,14 @@
             // 
             // dgvSinhVien
             // 
+<<<<<<< HEAD
+            dataGridView1.BackgroundColor = SystemColors.ButtonHighlight;
+            dataGridView1.BorderStyle = BorderStyle.Fixed3D;
+=======
             dgvSinhVien.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             dgvSinhVien.BackgroundColor = SystemColors.ButtonHighlight;
             dgvSinhVien.BorderStyle = BorderStyle.Fixed3D;
+>>>>>>> 3e39bc3f1cbc6e7bf18e282ee981c8c377e5636e
             dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = SystemColors.Control;
             dataGridViewCellStyle1.Font = new Font("Segoe UI", 9F);
@@ -258,9 +263,14 @@
             dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
             dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
             dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
+<<<<<<< HEAD
+            dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+=======
             dgvSinhVien.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dgvSinhVien.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvSinhVien.Columns.AddRange(new DataGridViewColumn[] { btnSua });
+>>>>>>> 3e39bc3f1cbc6e7bf18e282ee981c8c377e5636e
             dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle2.BackColor = SystemColors.Window;
             dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F);
@@ -268,6 +278,15 @@
             dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
             dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
             dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
+<<<<<<< HEAD
+            dataGridView1.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridView1.Location = new Point(30, 167);
+            dataGridView1.Margin = new Padding(4, 5, 4, 5);
+            dataGridView1.Name = "dataGridView1";
+            dataGridView1.RowHeadersWidth = 62;
+            dataGridView1.Size = new Size(561, 457);
+            dataGridView1.TabIndex = 0;
+=======
             dgvSinhVien.DefaultCellStyle = dataGridViewCellStyle2;
             dgvSinhVien.Location = new Point(21, 100);
             dgvSinhVien.Name = "dgvSinhVien";
@@ -284,6 +303,7 @@
             btnSua.Text = "Sửa";
             btnSua.UseColumnTextForButtonValue = true;
             btnSua.Width = 50;
+>>>>>>> 3e39bc3f1cbc6e7bf18e282ee981c8c377e5636e
             // 
             // label6
             // 
@@ -381,6 +401,19 @@
             // 
             // btnXoaSV
             // 
+<<<<<<< HEAD
+            button2.BackColor = SystemColors.ActiveCaption;
+            button2.Font = new Font("Arial", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            button2.ForeColor = Color.Black;
+            button2.Location = new Point(196, 370);
+            button2.Margin = new Padding(4, 5, 4, 5);
+            button2.Name = "button2";
+            button2.Size = new Size(141, 66);
+            button2.TabIndex = 10;
+            button2.Text = "Xóa sinh viên";
+            button2.UseVisualStyleBackColor = false;
+            button2.Click += button2_Click;
+=======
             btnXoaSV.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
             btnXoaSV.BackColor = SystemColors.ActiveCaption;
             btnXoaSV.Font = new Font("Arial", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
@@ -392,6 +425,7 @@
             btnXoaSV.Text = "Xóa sinh viên";
             btnXoaSV.UseVisualStyleBackColor = false;
             btnXoaSV.Click += btnXoaSV_Click_1;
+>>>>>>> 3e39bc3f1cbc6e7bf18e282ee981c8c377e5636e
             // 
             // btnThem
             // 

@@ -1,14 +1,42 @@
 ﻿using System.Drawing.Drawing2D;
 using System;
 using System.Collections.Generic;
+<<<<<<< HEAD
+using System.Linq;
+using System.Windows.Forms;
+=======
 using System.Windows.Forms;
 using System.Linq;
 using System.Text.RegularExpressions;
+>>>>>>> 3e39bc3f1cbc6e7bf18e282ee981c8c377e5636e
 
 namespace DoAnStudentManager
 {
+    public class Student
+    {
+        public string MSSV { get; set; } = "";
+        public string Tên { get; set; } = "";
+        public int Lớp { get; set; } = 0;
+
+        public Student()
+        {
+            MSSV = "";
+            Tên  = "";
+            Lớp = 0;
+        }
+    }
+
     public partial class Form1 : Form
     {
+<<<<<<< HEAD
+        List<Student> students = new List<Student>();
+        public Form1()
+        {
+            InitializeComponent();
+            students.Add(new Student { MSSV = "SV01", Tên  = "Nguyen Van A", Lớp   = 3  });
+            students.Add(new Student { MSSV = "SV02", Tên  = "Tran Thi B", Lớp  = 4  });
+            LoadStudents ();
+=======
         // Tạo một danh sách tạm để lưu trữ sinh viên (Giả lập Database)
         List<Student> danhSachSV = new List<Student>();
 
@@ -28,8 +56,28 @@ namespace DoAnStudentManager
             // 2. Căn giữa chữ "STT" cho đẹp
             dgvSinhVien.TopLeftHeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
             dgvSinhVien.RowHeadersWidth = 50;
+>>>>>>> 3e39bc3f1cbc6e7bf18e282ee981c8c377e5636e
         }
+        private void LoadStudents()
+        {
+            dataGridView1.Rows.Clear();
 
+           
+            {
+                dataGridView1.ColumnCount = 3;
+                dataGridView1.Columns[0].Name = "MSSV";
+                dataGridView1.Columns[1].Name = "Tên";
+                dataGridView1.Columns[2].Name = "Lớp";
+
+                dataGridView1.Rows.Clear();
+
+
+                foreach (var s in students)
+                {
+                    dataGridView1.Rows.Add(s.MSSV, s.Tên, s.Lớp);
+                }
+            }
+        }
         private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
         {
 
@@ -105,6 +153,29 @@ namespace DoAnStudentManager
 
         }
 
+<<<<<<< HEAD
+        private void button2_Click(object sender, EventArgs e)
+        {
+            if (dataGridView1.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Vui lòng chọn sinh viên muốn xóa!");
+                return;
+            }
+
+            string? MSSV =
+                dataGridView1.SelectedRows[0].Cells["MSSV"].Value.ToString();
+
+            var studentToRemove =
+                students.FirstOrDefault(s => s.MSSV == MSSV);
+
+            if (studentToRemove != null)
+            {
+                students.Remove(studentToRemove);
+                LoadStudents();
+                MessageBox.Show("Xóa thành công!");
+            }
+        }
+=======
         private void btnThem_Click(object sender, EventArgs e)
         {
             // Lấy dữ liệu từ TextBox
@@ -433,6 +504,7 @@ namespace DoAnStudentManager
                             MessageBoxButtons.OK,
                             MessageBoxIcon.Information);
         }
+>>>>>>> 3e39bc3f1cbc6e7bf18e282ee981c8c377e5636e
     }
 }
         

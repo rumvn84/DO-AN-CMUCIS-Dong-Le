@@ -351,7 +351,7 @@ namespace DoAnStudentManager
             }
         }
 
-        
+
 
         private void btnXoaSV_Click_1(object sender, EventArgs e)
         {
@@ -432,6 +432,61 @@ namespace DoAnStudentManager
                             "Thông báo",
                             MessageBoxButtons.OK,
                             MessageBoxIcon.Information);
+        }
+
+        private void btnTimKiemSV_Click(object sender, EventArgs e)
+        {
+            // ============================================================
+            // BƯỚC 1: LẤY DỮ LIỆU TỪ 4 Ô NHẬP LIỆU
+            // ============================================================
+
+            // Chuyển hết về chữ thường (ToLower) để tìm không phân biệt hoa thường
+            string maCanTim = txtMaSV.Text.Trim().ToLower();
+            string tenCanTim = txtHoTen.Text.Trim().ToLower();
+            string lopCanTim = txtLop.Text.Trim().ToLower();
+            string diemCanTim = txtDiem.Text.Trim(); // Điểm giữ nguyên để so sánh chuỗi
+
+            // ============================================================
+            // BƯỚC 2: THỰC HIỆN LỌC (LOGIC KẾT HỢP - AND)
+            // ============================================================
+
+            // Logic: Duyệt danh sách, giữ lại những người thỏa mãn TẤT CẢ các ô ĐANG CÓ DỮ LIỆU.
+            // Nếu ô nào để trống => Coi như bỏ qua điều kiện đó (luôn đúng).
+
+            var ketQua = danhSachSV.Where(sv =>
+                (string.IsNullOrEmpty(maCanTim) || sv.MaSV.ToLower().Contains(maCanTim)) &&
+                (string.IsNullOrEmpty(tenCanTim) || sv.HoTen.ToLower().Contains(tenCanTim)) &&
+                (string.IsNullOrEmpty(lopCanTim) || sv.Lop.ToLower().Contains(lopCanTim)) &&
+                (string.IsNullOrEmpty(diemCanTim) || sv.Diem.ToString().Contains(diemCanTim))
+            ).ToList();
+
+            // ============================================================
+            // BƯỚC 3: XỬ LÝ KẾT QUẢ (TC-11)
+            // ============================================================
+
+            if (ketQua.Count == 0)
+            {
+                // TC-11: Không tìm thấy kết quả
+                MessageBox.Show("Không tìm thấy sinh viên nào khớp với thông tin đã nhập!",
+                                "Kết quả tìm kiếm", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                // Tùy chọn: Xóa bảng hoặc giữ nguyên bảng cũ
+                dgvSinhVien.DataSource = null;
+            }
+            else
+            {
+                // TC-09 & TC-10: Có kết quả -> Hiển thị lên bảng
+                dgvSinhVien.DataSource = null;
+                dgvSinhVien.DataSource = ketQua;
+
+                // Định dạng lại cột điểm cho đẹp (nếu cần)
+                if (dgvSinhVien.Columns["Diem"] != null)
+                {
+                    dgvSinhVien.Columns["Diem"].DefaultCellStyle.Format = "0.00";
+                }
+
+                MessageBox.Show($"Tìm thấy {ketQua.Count} sinh viên!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
     }
 }

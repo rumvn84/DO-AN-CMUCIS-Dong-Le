@@ -346,6 +346,7 @@
             btnTimKiemSV.TabIndex = 6;
             btnTimKiemSV.Text = "Tìm kiếm sinh viên";
             btnTimKiemSV.UseVisualStyleBackColor = false;
+            btnTimKiemSV.Click += btnTimKiemSV_Click;
             // 
             // txtDiem
             // 

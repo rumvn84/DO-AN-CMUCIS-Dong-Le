@@ -260,8 +260,16 @@ namespace DoAnStudentManager
 
         }
 
-        private void button8_Click(object sender, EventArgs e)
+        private void btnDTB_Click(object sender, EventArgs e)
         {
+            if (danhSachSV.Count == 0)
+            {
+                MessageBox.Show("Danh sách sinh viên trống!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+            double tongDiem = danhSachSV.Sum(sv => sv.Diem);
+            double diemTrungBinh = tongDiem / danhSachSV.Count;
+            MessageBox.Show($"Điểm trung bình của tất cả sinh viên là: {diemTrungBinh:F2}", "Điểm Trung Bình", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
         }
         private void Input_KeyDown(object sender, KeyEventArgs e)

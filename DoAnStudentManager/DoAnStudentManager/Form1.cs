@@ -496,6 +496,108 @@ namespace DoAnStudentManager
                 MessageBox.Show($"Tìm thấy {ketQua.Count} sinh viên!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
+
+        private void btnCapNhat_Click(object sender, EventArgs e)
+        {
+            // ============================================================
+            // BƯỚC 1: LẤY DỮ LIỆU TỪ FORM
+            // ============================================================
+
+            // Cắt khoảng trắng thừa 2 đầu
+            string maSV = txtMaSV.Text.Trim();
+
+            // Chuẩn hóa font chữ cho Tên (Khắc phục lỗi font tiếng Việt)
+            string hoTen = txtHoTen.Text.Trim().Normalize(System.Text.NormalizationForm.FormC);
+            string lop = txtLop.Text.Trim();
+            string strDiem = txtDiem.Text.Trim();
+
+            // ============================================================
+            // BƯỚC 2: KIỂM TRA DỮ LIỆU ĐẦU VÀO (VALIDATION)
+            // ============================================================
+
+            // 1. Kiểm tra rỗng
+            if (string.IsNullOrEmpty(maSV) || string.IsNullOrEmpty(hoTen) ||
+                string.IsNullOrEmpty(lop) || string.IsNullOrEmpty(strDiem))
+            {
+                MessageBox.Show("Vui lòng chọn sinh viên trên bảng và nhập đầy đủ thông tin!",
+                                "Thiếu thông tin", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // 2. Tìm sinh viên cần sửa trong danh sách (Dựa theo Mã SV)
+            // Đây là bước quan trọng nhất: Phải tìm ra đối tượng cũ để sửa đổi nó
+            var svCanSua = danhSachSV.SingleOrDefault(sv => sv.MaSV == maSV);
+
+            if (svCanSua == null)
+            {
+                MessageBox.Show($"Không tìm thấy sinh viên có mã {maSV}!\n(Lưu ý: Không được sửa Mã Sinh Viên).",
+                                "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            // 3. Kiểm tra Tên (Logic "Phương pháp loại trừ" - Chấp nhận mọi tên Tiếng Việt)
+            if (hoTen.Length > 200)
+            {
+                MessageBox.Show("Tên quá dài (tối đa 200 ký tự)!", "Lỗi độ dài", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            foreach (char c in hoTen)
+            {
+                // Nếu ký tự là SỐ hoặc KÝ TỰ ĐẶC BIỆT hoặc DẤU CÂU (Trừ khoảng trắng)
+                if (char.IsDigit(c) || char.IsSymbol(c) || char.IsPunctuation(c))
+                {
+                    MessageBox.Show($"Tên không hợp lệ! Phát hiện ký tự lạ: '{c}'",
+                                    "Lỗi tên", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtHoTen.Focus();
+                    return;
+                }
+            }
+
+            // 4. Kiểm tra Điểm
+            float diemMoi;
+            if (!float.TryParse(strDiem, out diemMoi))
+            {
+                MessageBox.Show("Điểm phải là SỐ!", "Lỗi định dạng", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtDiem.Focus();
+                return;
+            }
+
+            if (diemMoi < 0 || diemMoi > 10)
+            {
+                MessageBox.Show("Điểm phải từ 0 đến 10!", "Lỗi giá trị", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtDiem.Focus();
+                return;
+            }
+
+            // ============================================================
+            // BƯỚC 3: THỰC HIỆN CẬP NHẬT (UPDATE)
+            // ============================================================
+
+            // Hỏi xác nhận cho chắc chắn (Đáp ứng trải nghiệm người dùng tốt)
+            DialogResult result = MessageBox.Show($"Bạn có chắc chắn muốn cập nhật thông tin cho sinh viên {svCanSua.MaSV} không?",
+                                                  "Xác nhận cập nhật", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            if (result == DialogResult.Yes)
+            {
+                // Gán dữ liệu MỚI vào đối tượng CŨ
+                // Lưu ý: Chúng ta KHÔNG sửa MaSV (vì đó là khóa chính để tìm kiếm)
+                svCanSua.HoTen = hoTen;
+                svCanSua.Lop = lop;
+                svCanSua.Diem = diemMoi;
+
+                // ============================================================
+                // BƯỚC 4: LÀM MỚI GIAO DIỆN
+                // ============================================================
+
+                CapNhatBang(); // Vẽ lại bảng với dữ liệu mới
+
+                // (Tùy chọn) Có thể xóa trắng textbox sau khi sửa xong
+                // ResetForm(); 
+
+                MessageBox.Show("Cập nhật thông tin thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
     }
 }
         

@@ -33,8 +33,9 @@
             DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
             tableLayoutPanel1 = new TableLayoutPanel();
             panel1 = new Panel();
+            label10 = new Label();
+            cbTieuChi = new ComboBox();
             button13 = new Button();
-            btnSapXep = new Button();
             btnThongKe = new Button();
             label9 = new Label();
             button12 = new Button();
@@ -89,8 +90,9 @@
             // 
             panel1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
             panel1.BorderStyle = BorderStyle.FixedSingle;
+            panel1.Controls.Add(label10);
+            panel1.Controls.Add(cbTieuChi);
             panel1.Controls.Add(button13);
-            panel1.Controls.Add(btnSapXep);
             panel1.Controls.Add(btnThongKe);
             panel1.Controls.Add(label9);
             panel1.Controls.Add(button12);
@@ -109,6 +111,30 @@
             panel1.TabIndex = 0;
             panel1.Paint += panel1_Paint;
             // 
+            // label10
+            // 
+            label10.AutoSize = true;
+            label10.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label10.Location = new Point(352, 74);
+            label10.Name = "label10";
+            label10.Size = new Size(44, 20);
+            label10.TabIndex = 23;
+            label10.Text = "SORT";
+            label10.Click += label10_Click_2;
+            // 
+            // cbTieuChi
+            // 
+            cbTieuChi.BackColor = SystemColors.ButtonFace;
+            cbTieuChi.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbTieuChi.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            cbTieuChi.FormattingEnabled = true;
+            cbTieuChi.Items.AddRange(new object[] { "Điểm tăng", "Điểm giảm", "A -> Z", "Z -> A" });
+            cbTieuChi.Location = new Point(348, 71);
+            cbTieuChi.Name = "cbTieuChi";
+            cbTieuChi.Size = new Size(66, 25);
+            cbTieuChi.TabIndex = 22;
+            cbTieuChi.SelectedIndexChanged += cbTieuChi_SelectedIndexChanged;
+            // 
             // button13
             // 
             button13.BackColor = Color.AliceBlue;
@@ -120,18 +146,6 @@
             button13.TabIndex = 6;
             button13.Text = "Tìm kiếm sinh viên";
             button13.UseVisualStyleBackColor = false;
-            // 
-            // btnSapXep
-            // 
-            btnSapXep.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            btnSapXep.BackColor = SystemColors.ControlLight;
-            btnSapXep.Font = new Font("Microsoft Sans Serif", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btnSapXep.Location = new Point(353, 71);
-            btnSapXep.Name = "btnSapXep";
-            btnSapXep.Size = new Size(61, 23);
-            btnSapXep.TabIndex = 21;
-            btnSapXep.Text = "SORT";
-            btnSapXep.UseVisualStyleBackColor = false;
             // 
             // btnThongKe
             // 
@@ -557,5 +571,7 @@
         private Button button11;
         private Button button10;
         private DataGridViewButtonColumn btnSua;
+        private ComboBox cbTieuChi;
+        private Label label10;
     }
 }

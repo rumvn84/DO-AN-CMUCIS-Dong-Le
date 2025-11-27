@@ -728,6 +728,58 @@ namespace DoAnStudentManager
                 }
             }
         }
+
+        private void label10_Click_2(object sender, EventArgs e)
+        {
+
+        }
+
+        private void cbTieuChi_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // 1. Kiểm tra xem người dùng chọn chưa (tránh lỗi khi chưa chọn gì)
+            if (cbTieuChi.SelectedIndex == -1)
+            {
+                return;
+            }
+
+            // 2. Lấy chỉ số mục được chọn (0, 1, 2, 3)
+            int luaChon = cbTieuChi.SelectedIndex;
+
+            // 3. Thực hiện sắp xếp ngay lập tức
+            switch (luaChon)
+            {
+                case 0: // Điểm tăng dần
+                    danhSachSV = danhSachSV.OrderBy(sv => sv.Diem).ToList();
+                    break;
+
+                case 1: // Điểm giảm dần
+                    danhSachSV = danhSachSV.OrderByDescending(sv => sv.Diem).ToList();
+                    break;
+
+                case 2: // Tên A -> Z (Sắp xếp theo Tên thật)
+                    danhSachSV = danhSachSV.OrderBy(sv => LayTen(sv.HoTen)).ToList();
+                    break;
+
+                case 3: // Tên Z -> A
+                    danhSachSV = danhSachSV.OrderByDescending(sv => LayTen(sv.HoTen)).ToList();
+                    break;
+            }
+
+            // 4. Cập nhật lại bảng
+            CapNhatBang();
+        }
+        // --- HÀM PHỤ TRỢ: TÁCH TÊN ĐỂ SẮP XẾP ---
+        // Hàm này giúp lấy chữ cái cuối cùng của tên (Ví dụ: "Nguyễn Văn A" -> Lấy chữ "A")
+        private string LayTen(string hoTenDayDu)
+        {
+            if (string.IsNullOrEmpty(hoTenDayDu)) return "";
+
+            // Cắt chuỗi bằng dấu cách
+            string[] cacTu = hoTenDayDu.Trim().Split(' ');
+
+            // Trả về từ cuối cùng (Tên thật)
+            return cacTu[cacTu.Length - 1];
+        }
     }
 }
         

@@ -780,6 +780,22 @@ namespace DoAnStudentManager
             // Trả về từ cuối cùng (Tên thật)
             return cacTu[cacTu.Length - 1];
         }
+
+        private void btnThongKe_Click(object sender, EventArgs e)
+        {
+            if (danhSachSV.Count == 0)
+            {
+                MessageBox.Show("Danh sách sinh viên trống!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+            int tongSV = danhSachSV.Count;
+            int svDat = danhSachSV.Count(sv => sv.Diem >= 5.0);
+            int svKhongDat = danhSachSV.Count(sv => sv.Diem < 5.0);
+
+            lblTongSV.Text = $"#Tổng số sinh viên: {tongSV}";
+            lblDat.Text = $"#Số sinh viên đạt: {svDat}";
+            lblKhongDat.Text = $"#Số sinh viên không đạt: {svKhongDat}";
+        }
     }
 }
         

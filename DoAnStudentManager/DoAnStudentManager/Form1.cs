@@ -3,7 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Linq;
+using System.IO;
 using System.Text.RegularExpressions;
+
 
 namespace DoAnStudentManager
 {
@@ -11,6 +13,7 @@ namespace DoAnStudentManager
     {
         // Tạo một danh sách tạm để lưu trữ sinh viên (Giả lập Database)
         List<Student> danhSachSV = new List<Student>();
+        private string currentFilePath = "";
 
 
         public class Student  // Class đại diện cho Sinh viên
@@ -596,6 +599,133 @@ namespace DoAnStudentManager
                 // ResetForm(); 
 
                 MessageBox.Show("Cập nhật thông tin thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+        private void btnLuuFile_Click(object sender, EventArgs e)
+        {
+            {
+                // TC-14: Kiểm tra danh sách trống
+                if (danhSachSV.Count == 0)
+                {
+                    MessageBox.Show("Danh sách đang trống, không có gì để lưu!", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                // Nếu chưa có file (chưa từng Open hoặc Save trước đó) -> Phải Tạo file mới
+                if (string.IsNullOrEmpty(currentFilePath))
+                {
+                    SaveFileDialog saveDlg = new SaveFileDialog();
+                    saveDlg.Filter = "Text File|*.txt|All Files|*.*"; // Chỉ cho lưu file .txt
+                    saveDlg.Title = "Lưu danh sách sinh viên";
+
+                    if (saveDlg.ShowDialog() == DialogResult.OK)
+                    {
+                        currentFilePath = saveDlg.FileName; // Lưu đường dẫn lại để lần sau dùng tiếp
+                    }
+                    else
+                    {
+                        return; // Người dùng bấm Cancel thì thôi
+                    }
+                }
+
+                // TC-25: Xử lý ngoại lệ (File đang mở, ổ cứng đầy, không có quyền ghi...)
+                try
+                {
+                    // Ghi file với mã hóa UTF8 để không lỗi font Tiếng Việt
+                    using (StreamWriter sw = new StreamWriter(currentFilePath, false, System.Text.Encoding.UTF8))
+                    {
+                        foreach (var sv in danhSachSV)
+                        {
+                            // Định dạng dòng: MaSV | HoTen | Lop | Diem
+                            // Dùng dấu gạch đứng "|" để ngăn cách vì tên người ít khi có dấu này
+                            string line = $"{sv.MaSV}|{sv.HoTen}|{sv.Lop}|{sv.Diem}";
+                            sw.WriteLine(line);
+                        }
+                    }
+
+                    MessageBox.Show($"Lưu thành công vào file:\n{currentFilePath}", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Lỗi khi lưu file: " + ex.Message, "Lỗi hệ thống", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private void btnMoFile_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openDlg = new OpenFileDialog();
+            openDlg.Filter = "Text File|*.txt|All Files|*.*";
+            openDlg.Title = "Mở file dữ liệu sinh viên";
+
+            if (openDlg.ShowDialog() == DialogResult.OK)
+            {
+                string path = openDlg.FileName;
+
+                // TC-17: Kiểm tra file rỗng
+                FileInfo fi = new FileInfo(path);
+                if (fi.Length == 0)
+                {
+                    MessageBox.Show("File này không có dữ liệu!", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                // Tạo một list tạm để chứa dữ liệu đọc được
+                // (Tránh trường hợp đang đọc thì lỗi, làm hỏng luôn danh sách hiện tại)
+                List<Student> listTam = new List<Student>();
+
+                // TC-26: Chặn lỗi đọc file (File hỏng, đang bị phần mềm khác khóa...)
+                try
+                {
+                    string[] lines = File.ReadAllLines(path, System.Text.Encoding.UTF8);
+
+                    for (int i = 0; i < lines.Length; i++)
+                    {
+                        string line = lines[i].Trim();
+                        if (string.IsNullOrEmpty(line)) continue; // Bỏ qua dòng trống
+
+                        // Cắt chuỗi bằng dấu "|"
+                        string[] parts = line.Split('|');
+
+                        // TC-16: Kiểm tra định dạng (Phải đủ 4 phần: Mã, Tên, Lớp, Điểm)
+                        if (parts.Length != 4)
+                        {
+                            MessageBox.Show($"Dòng số {i + 1} bị sai định dạng!\nNội dung: {line}", "Lỗi dữ liệu", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return; // Dừng lại không đọc nữa
+                        }
+
+                        // Parse dữ liệu
+                        Student sv = new Student();
+                        sv.MaSV = parts[0].Trim();
+                        sv.HoTen = parts[1].Trim();
+                        sv.Lop = parts[2].Trim();
+
+                        // Kiểm tra điểm có phải số không
+                        if (!float.TryParse(parts[3].Trim(), out float diem))
+                        {
+                            MessageBox.Show($"Lỗi định dạng điểm ở dòng {i + 1}!", "Lỗi dữ liệu", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return;
+                        }
+                        sv.Diem = diem;
+
+                        listTam.Add(sv);
+                    }
+
+                    // Đọc xong hết ngon lành thì mới gán vào danh sách chính
+                    danhSachSV = listTam;
+
+                    // Cập nhật đường dẫn hiện tại (để lát bấm Save thì lưu đè vào đây luôn)
+                    currentFilePath = path;
+
+                    // Cập nhật lên bảng
+                    CapNhatBang();
+                    MessageBox.Show("Mở file hoàn tất!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Không thể đọc file: " + ex.Message, "Lỗi hệ thống", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
     }

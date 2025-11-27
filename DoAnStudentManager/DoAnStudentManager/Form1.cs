@@ -791,10 +791,13 @@ namespace DoAnStudentManager
             int tongSV = danhSachSV.Count;
             int svDat = danhSachSV.Count(sv => sv.Diem >= 5.0);
             int svKhongDat = danhSachSV.Count(sv => sv.Diem < 5.0);
-
+            //Hiển thị thông tin thống kê trên label 
             lblTongSV.Text = $"#Tổng số sinh viên: {tongSV}";
             lblDat.Text = $"#Số sinh viên đạt: {svDat}";
             lblKhongDat.Text = $"#Số sinh viên không đạt: {svKhongDat}";
+            // Mở Form biểu đồ thống kê
+            FormThongKe frmThongKe = new FormThongKe(tongSV, svDat, svKhongDat);
+            frmThongKe.ShowDialog();
         }
     }
 }

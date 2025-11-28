@@ -15,6 +15,16 @@ namespace DoAnStudentManager
         List<Student> danhSachSV = new List<Student>();
         private string currentFilePath = "";
 
+        private void CapNhatThongTinThongKe()
+        {
+            int tongSV = danhSachSV.Count;
+            int svDat = danhSachSV.Count(sv => sv.Diem >= 5.0);
+            int svKhongDat = danhSachSV.Count(sv => sv.Diem < 5.0);
+
+            lblTongSV.Text = $"#Tổng số sinh viên: {tongSV}";
+            lblDat.Text = $"#Số sinh viên đạt: {svDat}";
+            lblKhongDat.Text = $"#Số sinh viên không đạt: {svKhongDat}";
+        }
 
         public class Student  // Class đại diện cho Sinh viên
         {
@@ -31,6 +41,8 @@ namespace DoAnStudentManager
             // 2. Căn giữa chữ "STT" cho đẹp
             dgvSinhVien.TopLeftHeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
             dgvSinhVien.RowHeadersWidth = 50;
+
+            CapNhatThongTinThongKe();
         }
 
         private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
@@ -222,6 +234,7 @@ namespace DoAnStudentManager
 
             danhSachSV.Add(newSV);
             CapNhatBang();
+            CapNhatThongTinThongKe();
             ResetForm();
 
             MessageBox.Show("Thêm sinh viên thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -431,6 +444,9 @@ namespace DoAnStudentManager
             // 2. Xóa dòng tương ứng trên giao diện bảng (Cập nhật lại nguồn dữ liệu)
             CapNhatBang(); // Hàm này sẽ load lại list mới (đã mất người vừa xóa) lên dgv
 
+            // Cập nhật lại thông tin thống kê
+            CapNhatThongTinThongKe();
+
             // 3. Xóa trắng các ô nhập liệu (Clean UI) để tránh xóa nhầm lần nữa
             ResetForm();
 
@@ -594,6 +610,7 @@ namespace DoAnStudentManager
                 // ============================================================
 
                 CapNhatBang(); // Vẽ lại bảng với dữ liệu mới
+                CapNhatThongTinThongKe(); // Cập nhật lại thông tin thống kê
 
                 // (Tùy chọn) Có thể xóa trắng textbox sau khi sửa xong
                 // ResetForm(); 
@@ -720,6 +737,7 @@ namespace DoAnStudentManager
 
                     // Cập nhật lên bảng
                     CapNhatBang();
+                    CapNhatThongTinThongKe();
                     MessageBox.Show("Mở file hoàn tất!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 catch (Exception ex)
@@ -791,10 +809,7 @@ namespace DoAnStudentManager
             int tongSV = danhSachSV.Count;
             int svDat = danhSachSV.Count(sv => sv.Diem >= 5.0);
             int svKhongDat = danhSachSV.Count(sv => sv.Diem < 5.0);
-            //Hiển thị thông tin thống kê trên label 
-            lblTongSV.Text = $"#Tổng số sinh viên: {tongSV}";
-            lblDat.Text = $"#Số sinh viên đạt: {svDat}";
-            lblKhongDat.Text = $"#Số sinh viên không đạt: {svKhongDat}";
+           
             // Mở Form biểu đồ thống kê
             FormThongKe frmThongKe = new FormThongKe(tongSV, svDat, svKhongDat);
             frmThongKe.ShowDialog();

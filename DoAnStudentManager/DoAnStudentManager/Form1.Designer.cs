@@ -64,6 +64,7 @@
             label2 = new Label();
             label1 = new Label();
             fontDialog1 = new FontDialog();
+            btnClear = new Button();
             tableLayoutPanel1.SuspendLayout();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvSinhVien).BeginInit();
@@ -358,6 +359,7 @@
             panel2.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
             panel2.BackColor = Color.FromArgb(0, 0, 3, 51);
             panel2.BorderStyle = BorderStyle.Fixed3D;
+            panel2.Controls.Add(btnClear);
             panel2.Controls.Add(btnTimKiemSV);
             panel2.Controls.Add(txtDiem);
             panel2.Controls.Add(txtLop);
@@ -383,7 +385,7 @@
             btnTimKiemSV.BackColor = Color.AliceBlue;
             btnTimKiemSV.Font = new Font("Arial", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnTimKiemSV.ForeColor = Color.Black;
-            btnTimKiemSV.Location = new Point(21, 487);
+            btnTimKiemSV.Location = new Point(21, 460);
             btnTimKiemSV.Margin = new Padding(4, 5, 4, 5);
             btnTimKiemSV.Name = "btnTimKiemSV";
             btnTimKiemSV.Size = new Size(316, 46);
@@ -418,7 +420,7 @@
             btnCapNhat.BackColor = SystemColors.InactiveBorder;
             btnCapNhat.Font = new Font("Segoe UI", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnCapNhat.ForeColor = Color.Firebrick;
-            btnCapNhat.Location = new Point(61, 583);
+            btnCapNhat.Location = new Point(62, 531);
             btnCapNhat.Margin = new Padding(4, 5, 4, 5);
             btnCapNhat.Name = "btnCapNhat";
             btnCapNhat.Size = new Size(230, 65);
@@ -541,6 +543,18 @@
             label1.Text = "Thông Tin Sinh Viên";
             label1.Click += label1_Click;
             // 
+            // btnClear
+            // 
+            btnClear.BackColor = Color.LightSlateGray;
+            btnClear.Font = new Font("Microsoft JhengHei UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnClear.Location = new Point(21, 629);
+            btnClear.Name = "btnClear";
+            btnClear.Size = new Size(316, 46);
+            btnClear.TabIndex = 8;
+            btnClear.Text = "CLEAR";
+            btnClear.UseVisualStyleBackColor = false;
+            btnClear.Click += btnClear_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
@@ -590,7 +604,6 @@
         private Button button4;
         private Button button9;
         private Button button7;
-        private Button button1;
         private Button btnSapXep;
         private Button btnThongKe;
         private Button btnDTB;
@@ -606,5 +619,6 @@
         private DataGridViewButtonColumn btnSua;
         private ComboBox cbTieuChi;
         private Label label10;
+        private Button btnClear;
     }
 }

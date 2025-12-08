@@ -1,10 +1,11 @@
-﻿using System.Drawing.Drawing2D;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Windows.Forms;
-using System.Linq;
+using System.Drawing.Drawing2D;
 using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
+using System.Windows.Forms;
+using static DoAnStudentManager.Form1;
 
 
 namespace DoAnStudentManager
@@ -809,13 +810,51 @@ namespace DoAnStudentManager
             int tongSV = danhSachSV.Count;
             int svDat = danhSachSV.Count(sv => sv.Diem >= 5.0);
             int svKhongDat = danhSachSV.Count(sv => sv.Diem < 5.0);
-           
+
             // Mở Form biểu đồ thống kê
             FormThongKe frmThongKe = new FormThongKe(tongSV, svDat, svKhongDat);
             frmThongKe.ShowDialog();
         }
+
+        private void btnClear_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Bạn có chắc muốn xóa toàn bộ dữ liệu sinh viên không?",
+                    "Xác nhận xóa",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Warning) == DialogResult.No)
+                return;
+            foreach (Control ctrl in this.Controls)
+                ClearTextBoxes(ctrl);
+            danhSachSV.Clear();                  // Xóa toàn bộ phần tử trong List
+            dgvSinhVien.DataSource = null;       // Ngắt kết nối giữa DataGridView và List
+            dgvSinhVien.Rows.Clear();            // Xóa toàn bộ hàng đang hiển thị
+
+            CapNhatThongTinThongKe();
+            dgvSinhVien.Refresh();
+
+        
+                MessageBox.Show("Toàn bộ dữ liệu sinh viên đã được xóa.",
+                        "Đã xóa",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
+        }
+        private void ClearTextBoxes(Control parent)
+        {
+            foreach (Control ctrl in parent.Controls)
+            {
+                if (ctrl is TextBox)
+                {
+                    ((TextBox)ctrl).Clear();
+                }
+                else if (ctrl.HasChildren)
+                {
+                    ClearTextBoxes(ctrl);
+                }
+            }
+        }
     }
 }
+
         
     
 

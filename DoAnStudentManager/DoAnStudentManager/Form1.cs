@@ -269,7 +269,7 @@ namespace DoAnStudentManager
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
+            LoadDuLieuTamThoi(); // Thêm dòng này để tải dữ liệu khi Form1 Load
         }
 
         private void button7_Click_1(object sender, EventArgs e)
@@ -832,11 +832,11 @@ namespace DoAnStudentManager
             CapNhatThongTinThongKe();
             dgvSinhVien.Refresh();
 
-        
-                MessageBox.Show("Toàn bộ dữ liệu sinh viên đã được xóa.",
-                        "Đã xóa",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Information);
+
+            MessageBox.Show("Toàn bộ dữ liệu sinh viên đã được xóa.",
+                    "Đã xóa",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
         }
         private void ClearTextBoxes(Control parent)
         {
@@ -852,6 +852,109 @@ namespace DoAnStudentManager
                 }
             }
         }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            // Kiểm tra nếu danh sách có dữ liệu thì mới lưu
+            if (danhSachSV.Count > 0)
+            {
+                // Tự động gọi hàm lưu dữ liệu ra file tạm
+                // Tên hàm này bạn cần tạo riêng hoặc tùy chỉnh logic từ btnLuuFile_Click
+                LuuDuLieuTamThoi();
+            }
+        }
+        private void LuuDuLieuTamThoi()
+        {
+            // Đường dẫn tuyệt đối đến file tạm trong thư mục ứng dụng
+            // Tên file: temp_data.txt
+            string tempPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "temp_data.txt");
+
+            try
+            {
+                // Ghi file với mã hóa UTF8
+                using (StreamWriter sw = new StreamWriter(tempPath, false, System.Text.Encoding.UTF8))
+                {
+                    foreach (var sv in danhSachSV)
+                    {
+                        // Định dạng dòng: MaSV | HoTen | Lop | Diem
+                        string line = $"{sv.MaSV}|{sv.HoTen}|{sv.Lop}|{sv.Diem}";
+                        sw.WriteLine(line);
+                    }
+                }
+                // Có thể không cần thông báo gì ở đây vì ứng dụng đang đóng
+            }
+            catch (Exception)
+            {
+                // Bỏ qua lỗi lưu file tạm, không cần hiển thị MessageBox
+            }
+        }
+        private void LoadDuLieuTamThoi()
+        {
+            // Đường dẫn tuyệt đối đến file tạm
+            string tempPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "temp_data.txt");
+
+            // 1. Kiểm tra file có tồn tại không
+            if (!File.Exists(tempPath))
+            {
+                return; // Không có file tạm, không làm gì cả
+            }
+
+            // 2. Kiểm tra file rỗng
+            FileInfo fi = new FileInfo(tempPath);
+            if (fi.Length == 0)
+            {
+                return;
+            }
+
+            // List tạm để đọc dữ liệu
+            List<Student> listTam = new List<Student>();
+
+            try
+            {
+                string[] lines = File.ReadAllLines(tempPath, System.Text.Encoding.UTF8);
+
+                for (int i = 0; i < lines.Length; i++)
+                {
+                    string line = lines[i].Trim();
+                    if (string.IsNullOrEmpty(line)) continue;
+
+                    string[] parts = line.Split('|');
+
+                    // Kiểm tra định dạng
+                    if (parts.Length != 4)
+                    {
+                        // File bị lỗi, nên dừng lại và không load
+                        return;
+                    }
+
+                    Student sv = new Student();
+                    sv.MaSV = parts[0].Trim();
+                    sv.HoTen = parts[1].Trim();
+                    sv.Lop = parts[2].Trim();
+
+                    // Kiểm tra điểm
+                    if (!float.TryParse(parts[3].Trim(), out float diem))
+                    {
+                        return; // Lỗi định dạng điểm, dừng load
+                    }
+                    sv.Diem = diem;
+
+                    listTam.Add(sv);
+                }
+
+                // 3. Tải vào danh sách chính và cập nhật giao diện
+                danhSachSV = listTam;
+
+                // Cập nhật lên bảng và thống kê
+                CapNhatBang();
+                CapNhatThongTinThongKe();
+            }
+            catch (Exception)
+            {
+                // Bỏ qua lỗi đọc file
+            }
+        }
+
     }
 }
 

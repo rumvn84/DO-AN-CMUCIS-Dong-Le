@@ -709,7 +709,7 @@ namespace DoAnStudentManager
                         // TC-16: Kiểm tra định dạng (Phải đủ 4 phần: Mã, Tên, Lớp, Điểm)
                         if (parts.Length != 4)
                         {
-                            MessageBox.Show($"Dòng số {i + 1} bị sai định dạng!\nNội dung: {line}", "Lỗi dữ liệu", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            MessageBox.Show($"Sai định dạng ", "Lỗi dữ liệu", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             return; // Dừng lại không đọc nữa
                         }
 
@@ -722,7 +722,7 @@ namespace DoAnStudentManager
                         // Kiểm tra điểm có phải số không
                         if (!float.TryParse(parts[3].Trim(), out float diem))
                         {
-                            MessageBox.Show($"Lỗi định dạng điểm ở dòng {i + 1}!", "Lỗi dữ liệu", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            MessageBox.Show($"Lỗi định dạng", "Lỗi dữ liệu", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             return;
                         }
                         sv.Diem = diem;
@@ -730,7 +730,7 @@ namespace DoAnStudentManager
                         listTam.Add(sv);
                     }
 
-                    // Đọc xong hết ngon lành thì mới gán vào danh sách chính
+                    // Đọc xong hết tốt thì mới gán vào danh sách chính
                     danhSachSV = listTam;
 
                     // Cập nhật đường dẫn hiện tại (để lát bấm Save thì lưu đè vào đây luôn)
